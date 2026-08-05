@@ -27,7 +27,7 @@ int main(void)
 
 float FtoC(float a)
 {
-	return a-32*0.5555555;
+	return (a-32)*0.5555555;
 }
 
 float CtoF(float a)
