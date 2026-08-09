@@ -5,7 +5,8 @@
 ##### Some terms
 - Clone - Make a copy of a remote repo locally
 - Working tree 
-	- The directory you go into to edit and change files of the project
+	- The directory with all the files of your project that you can go into to edit and change
+	- The files as they appear at the commit pointed to by HEAD together with any uncommitted changes you have made.
 	- Created when you clone
 	- clean
 		- there are no uncommitted changes or untracked files in your git repository
@@ -52,6 +53,36 @@ git diff
 	- local commit history on main branch has one commit that the remote commit history on its main branch doesn't have
 ##### `git log`
 - tracks the commits made to repository
+	- each commit refers to a working tree as it was when the commit was made together with uncommitted changes
 	- top of output lists most recent commit entry
 	- commit id
 		- large hex number which is used to identify a particular commit
+- common references
+	- `HEAD` - indicates which branch or commit you're looking at right now in current git version controlled directory.
+		- You can view previous commits by moving HEAD to one of them.
+##### Going back in time to a previous commit
+1. first make sure that `git status` tells you that the working tree is clean or stash uncommitted changes
+2. then use `git switch`:
+```bash
+git switch --detach [commit hash]
+# or if you want to go back n number of commits before HEAD:
+git switch --detach HEAD~n
+```
+- Detached head state
+	- when `HEAD` is pointing to a commit instead of a branch.
+	- if you create a commit while in detached HEAD state, and you go back to the previous branch you were on, it is a **dangling commit** and will be disposed of by git
+	- if you want to preserve commits made during detached HEAD state, you need to create a new branch to place them on:
+
+```bash
+git switch -c [new branch]
+```
+- To reattach, use either
+```bash
+git switch -
+# or
+git switch main # if main was the branch you were working on
+```
+
+##### `git stash`
+- temporarily stow away uncommitted changes
+- useful when detaching head and moving to a specific past commit
